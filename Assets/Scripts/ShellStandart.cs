@@ -7,10 +7,11 @@ using System.Linq;
 public class ShellStandart : Shell, IDisappear 
 {
     int numbReflection = 10;
+
     public void Disappear()
     {
         Destroy(gameObject);
-        owner.Ammunition++;
+        owner.AddAmunition(1);
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision)
@@ -23,26 +24,17 @@ public class ShellStandart : Shell, IDisappear
         reflectAllowed = false;
         //Debug.Log(collision.name);
         //if(collision.name != owner.name)
-        Tank takedDamage;
+        Tank attackedTank;
         int dam = this.damage;
-        if(collision.TryGetComponent<Tank>(out takedDamage)){
-            takedDamage.Armor -= dam;
-            if (takedDamage.Armor < 0)
+        if(collision.TryGetComponent<Tank>(out attackedTank)){
+            attackedTank.ApplyDamage(dam); 
+            if (!attackedTank.IsAlive)
             {
-                dam = -takedDamage.Armor;
-                takedDamage.Armor = 0;
-            }
-            else dam = 0;
-            takedDamage.Health -= dam;
-            takedDamage.healthBar.UpdateBar(takedDamage.Health, Tank.maxHealth);
-            Debug.Log(takedDamage.name + ' '+ takedDamage.Health + ' ' + takedDamage.Armor);
-            if (takedDamage.Health <= 0)
-            {
-                if(takedDamage.name == "tankGreenAI")
+                if(attackedTank.name == "tankGreenAI")
                 {
                     Player.GetInstance().increaseScore(50);
                 } 
-                Destroy(takedDamage.gameObject);
+                Destroy(attackedTank.gameObject);
                 GameOver.over();
             }
             Disappear();     

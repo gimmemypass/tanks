@@ -6,7 +6,7 @@ using System;
 
 public class AITank : Tank 
 {
-    public Tank enemy;
+    public Tank enemy; 
     public Graph graph;
     public GameObject wayCircle;
     public GameObject wayPoint;

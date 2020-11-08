@@ -572,10 +572,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1049ad6e562836c479393c9c2df4f5cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tankGreenAI: {fileID: 1427843409}
-  tankGreen: {fileID: 814759070}
-  purpleTank: {fileID: 592349960}
-  Score: {fileID: 1723017952}
+  _tankGreenAI: {fileID: 1427843409}
+  _tankGreen: {fileID: 814759070}
+  _purpleTank: {fileID: 592349952}
+  _score: {fileID: 0}
 --- !u!4 &352332479
 Transform:
   m_ObjectHideFlags: 0
@@ -2768,8 +2768,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1247371494}
   m_HandleRect: {fileID: 1247371493}
   m_Direction: 2
-  m_Value: -0.000000061993994
-  m_Size: 0.26818633
+  m_Value: 0.000000020664661
+  m_Size: 0.26818627
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

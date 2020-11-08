@@ -5,10 +5,10 @@ using System.Collections;
 public class Setup : MonoBehaviour
 {
 
-    public GameObject tankGreenAI;
-    public GameObject tankGreen;
-    public Tank purpleTank;
-    public Text Score;
+    [SerializeField] private GameObject _tankGreenAI;
+    [SerializeField] private GameObject _tankGreen;
+    [SerializeField] private GameObject _purpleTank;
+    [SerializeField] private Text _score;
     // Use this for initialization
     void Start()
     {
@@ -17,23 +17,23 @@ public class Setup : MonoBehaviour
         switch (mode)
         {
             case "ai":
-                Destroy(tankGreen);
+                Destroy(_tankGreen);
                 switch (player.TankColor)
                 {
                     case Tank.Color.blue:
-                        purpleTank.GetComponent<SpriteRenderer>().color = new Color(0,233,255) ;
+                        _purpleTank.GetComponent<SpriteRenderer>().color = new Color(0,233,255) ;
                         break;
                     case Tank.Color.orange:
-                        purpleTank.GetComponent<SpriteRenderer>().color = new Color(238, 255, 0);
+                        _purpleTank.GetComponent<SpriteRenderer>().color = new Color(238, 255, 0);
                         break;
                     default:
                         break;
                 }
-                Score.text = player.Score.ToString();
+                _score.text = player.Score.ToString();
                 break;
             case "1vs1": 
-                Destroy(tankGreenAI);
-                Score.enabled = false;
+                Destroy(_tankGreenAI);
+                _score.enabled = false;
                 break;
             default:
                 break;

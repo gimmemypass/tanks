@@ -148,6 +148,7 @@ public class ConsoleController : MonoBehaviour
     {
 
     }
+     
     void audio(string[] args)
     {
         am.SetFloat("masterVolume", (float)Convert.ToDouble(args[0]));
@@ -162,6 +163,7 @@ public class ConsoleController : MonoBehaviour
     {
         visionChanged = null;
     }
+
     void battlecity(string[] args)
     {
         ReloadStaticElements.Reload();
