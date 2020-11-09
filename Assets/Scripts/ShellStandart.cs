@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Timers;
 using System;
 using System.Linq;
-public class ShellStandart : Shell, IDisappear 
+public class ShellStandart : Shell 
 {
     int numbReflection = 10;
 

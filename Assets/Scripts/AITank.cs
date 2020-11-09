@@ -6,16 +6,16 @@ using System;
 
 public class AITank : Tank 
 {
-    public Tank enemy; 
-    public Graph graph;
-    public GameObject wayCircle;
-    public GameObject wayPoint;
+    [SerializeField] protected GameObject enemy; 
+    [SerializeField] protected GameObject wayCircle;
+    [SerializeField] protected GameObject wayPoint;
+    public int ToPoint {get;set;}                    // индекс номера точки, в которую танк направляется, предоставляется AITankController 
     public List<GameObject> circles;
     public List<GameObject> wayPoints;
-    public int toPoint;                    // индекс номера точки, в которую танк направляется, предоставляется AITankController 
     public static bool showWay = true;
-    private Vector2Int prevEnemyPos;
-    private AITankController controller;
+    private Graph _graph;
+    private Vector2Int _prevEnemyPos;
+    private AITankController _controller;
 
 
 
@@ -30,12 +30,12 @@ public class AITank : Tank
         transform.position = new Vector2(UnityEngine.Random.Range(1, MazeGenerator.Width - 1) * Cell.size - Cell.size / 2,
                                                 UnityEngine.Random.Range(1, MazeGenerator.Height - 1) * Cell.size - Cell.size / 2);
         
-        graph = Graph.GetInstance(MazeGenerator.Height - 1, MazeGenerator.Width - 1);
+        _graph = Graph.GetInstance(MazeGenerator.Height - 1, MazeGenerator.Width - 1);
         circles = new List<GameObject>();
         wayPoints = new List<GameObject>();
         var currentEnemyPos = enemy.transform.position;
-        prevEnemyPos = Cell.GetCellVector(currentEnemyPos);
-        controller = GetComponent<AITankController>();
+        _prevEnemyPos = Cell.GetCellVector(currentEnemyPos);
+        _controller = GetComponent<AITankController>();
         ConsoleController.visionChanged += changeShowingWay;
         GetWay();
     }
@@ -50,32 +50,31 @@ public class AITank : Tank
                 if (Input.GetKeyDown(keyFire))
                     GetWay();
                 var currentEnemyPos = Cell.GetCellVector(enemy.transform.position); //получаем по позиции объекта на сцене целочисленные X и Y квадрата в лабиринте, где он находится
-                if (currentEnemyPos.x != prevEnemyPos.x ||
-                    currentEnemyPos.y != prevEnemyPos.y)
+                if (currentEnemyPos.x != _prevEnemyPos.x ||
+                    currentEnemyPos.y != _prevEnemyPos.y)
                 {
                     GetWay();
-                    prevEnemyPos = currentEnemyPos;
+                    _prevEnemyPos = currentEnemyPos;
                 }
             }
         }
-        catch(MissingReferenceException ex){ }
+        catch(MissingReferenceException){ }
     }
 
-
+    public Vector2 GetEnemyPosition() => enemy.transform.position;
     public void GetWay()
     {
-        toPoint = 0;
+        ToPoint = 0;
         RemoveOldPrefabs(); 
         var enemyPos = Cell.GetCellVector(enemy.transform.position);
         var pos = Cell.GetCellVector(transform.position);
-        List<int> way = graph.shortestWay(enemyPos.x, enemyPos.y, pos.x, pos.y);
+        List<int> way = _graph.shortestWay(enemyPos.x, enemyPos.y, pos.x, pos.y);
         int x_circle, y_circle;
         for (int i = 0; i < way.Count; i++)
         {
 
             y_circle = (int)(way[i] / (MazeGenerator.Width - 1));
             x_circle = way[i] - y_circle * (MazeGenerator.Width - 1);
-            //        Debug.Log($"{way[i]} -- {y_circle} - {x_circle}");
             if (showWay)
             {
                 circles.Add(Instantiate(wayCircle, new Vector3(x_circle * Cell.size + Cell.size/2, y_circle * Cell.size + Cell.size/2, 1), Quaternion.identity));
@@ -83,7 +82,7 @@ public class AITank : Tank
             wayPoints.Add(Instantiate(wayPoint, new Vector2(x_circle * Cell.size + UnityEngine.Random.Range(-1, 1) + Cell.size/2,
                                                             y_circle * Cell.size + UnityEngine.Random.Range(-1, 1) + Cell.size/2), Quaternion.identity));
         }
-        controller.GetNextWayPoint();
+        _controller.GetNextWayPoint();
     }
 
     void RemoveOldPrefabs()
@@ -102,13 +101,12 @@ public class AITank : Tank
     /// <param name="type">moving, turning, search</param>
     public void ChangeMovingType(AITankController.movingType type)
     {
-        controller.type = type;
+        _controller.type = type;
         if(type == AITankController.movingType.search)
         {
-            controller.updateSearchTimer();
+            _controller.updateSearchTimer();
         }
     }
-
     private void changeShowingWay(string param)
     {
         if (param == "on") AITank.showWay = true;

@@ -2,12 +2,12 @@
 
 public class TankController : MonoBehaviour
 {
-    public Animator animator;
+    [SerializeField] protected Animator animator;
 
-    public string keyMoveForward;
-    public string keyMoveReverse;
-    public string keyRotateRight;
-    public string keyRotateLeft;
+    [SerializeField] protected string keyMoveForward;
+    [SerializeField] protected string keyMoveReverse;
+    [SerializeField] protected string keyRotateRight;
+    [SerializeField] protected string keyRotateLeft;
 
     protected bool moveForward = false;
     protected bool moveReverse = false;

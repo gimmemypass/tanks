@@ -79,7 +79,7 @@ public class AITankController : TankController
                     Destroy(tank.circles[0]);
                     tank.circles.RemoveAt(0);
                 }
-                catch (ArgumentOutOfRangeException excep)
+                catch (ArgumentOutOfRangeException)
                 {
                     type = movingType.search;
                     Debug.LogWarning("circles are running out");
@@ -90,24 +90,24 @@ public class AITankController : TankController
         if(type == movingType.search) { 
             try
             {
-                Vector2 targetEnemy = tank.enemy.transform.position;
+                Vector2 targetEnemy = tank.GetEnemyPosition();
                 dir = (Vector2)transform.position - targetEnemy;
                 Vector3 c = new Vector3(0f, 0f, transform.up.x * dir.y - transform.up.y * dir.x); //результат векторного произведения
                                                                                                   //если направление по z у нас положительное, то поворачивать надо по часовой стрелке, иначе против
                 int sign = -(int)c.normalized.z;
                 transform.Rotate(0f, 0f, rotateSpeedMax * Time.deltaTime * sign);
             }
-            catch (Exception ex) { }
+            catch (Exception){ }
         } 
     }
 
     public void GetNextWayPoint()
     {
         //указывает следующую цель
-        if(tank.toPoint < tank.wayPoints.Count )
+        if(tank.ToPoint < tank.wayPoints.Count )
         {
-            target = tank.wayPoints[tank.toPoint].GetComponent<Transform>().position;
-            tank.toPoint++;
+            target = tank.wayPoints[tank.ToPoint].GetComponent<Transform>().position;
+            tank.ToPoint++;
             // Debug.Log($"next is {target.x} -- {target.y}");
             type = movingType.turning;
             

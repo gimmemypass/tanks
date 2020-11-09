@@ -4,10 +4,7 @@ using System;
 
 public class LaserManager : MonoBehaviour
 {
-    ////singleton fields
-    //static private LaserManager _instance;
-    //static private object _syscRoot = new object();
-    //////////////////// 
+ 
 
     private int indexLine;
     public GameObject LinePrefab;
@@ -29,27 +26,12 @@ public class LaserManager : MonoBehaviour
         } 
     }
     
-    //private LaserManager() { }
-    //static public LaserManager GetInstance()
-    //{
-    //    if(_instance is null)
-    //    {
-    //        lock (_syscRoot)
-    //        {
-    //            if(_instance is null)
-    //            {
-    //                _instance = new LaserManager();
-    //            }
-    //        }
-    //    }
-    //    return _instance;
-    //}
+
     void Start()
     {
         ConsoleController.visionChanged += changeShowingLaser; 
     }
 
-    // Update is called once per frame
     void Update()
     {
         indexLine = 0;
@@ -79,7 +61,7 @@ public class LaserManager : MonoBehaviour
 
             }
         }
-        catch (Exception ex) { }
+        catch (Exception ) { }
 
         Vector2 hitPos = hit.point;
         if (showLaser)

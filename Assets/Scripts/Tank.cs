@@ -86,7 +86,7 @@ public class Tank : MonoBehaviour
         if (timer is null)
         {
             timer = new Timer();
-            timer.Elapsed += new ElapsedEventHandler(onTimer);
+            timer.Elapsed += new ElapsedEventHandler(OnTimer);
         }
         if (fireAllowed && ammunition > 0)
         {
@@ -101,7 +101,7 @@ public class Tank : MonoBehaviour
         }
     }
 
-    protected void onTimer(object source, ElapsedEventArgs e)
+    protected void OnTimer(object source, ElapsedEventArgs e)
     {
         fireAllowed = true;
         timer.Stop();
